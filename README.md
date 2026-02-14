@@ -2,6 +2,24 @@
 
 An AI-powered Hytale plugin development environment featuring a comprehensive library of modding skills, an expert Hytale Modder agent, and automation scripts for keeping everything in sync with the latest Hytale pre-release server.
 
+## Getting Started
+
+### VS Code + GitHub Copilot (Recommended)
+
+1. Copy the `.github` folder from this repo into the root of your Hytale plugin project.
+2. Open your project in VS Code with the [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) extension installed.
+3. The agent, skills, and instructions will be picked up automatically by Copilot Chat.
+
+### Claude Code
+
+If you're using [Claude Code](https://docs.anthropic.com/en/docs/claude-code) instead of Copilot:
+
+1. Copy the `.github` folder into your project root and **rename it to `.claude`**.
+2. Rename `copilot-instructions.md` to `CLAUDE.md`.
+3. Agent and skill files will work as-is under the `.claude` directory.
+
+---
+
 ## Table of Contents
 
 - [Updating the Server Library](#updating-the-server-library)
@@ -26,6 +44,7 @@ The `update-server-lib` skill downloads the latest Hytale pre-release server, de
 Ensure the following are installed and on PATH:
 
 - **Hytale Downloader** — `hytale-downloader-windows-amd64.exe` (already authenticated)
+- **PowerShell 5.1+** — included with Windows 10/11 (`$PSVersionTable.PSVersion`)
 - **Python 3.13+** — `py -3.13 --version`
 - **Java 25+** — `java --version`
 - **Maven** — `mvn --version`
