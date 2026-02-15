@@ -160,8 +160,8 @@ Enums define valid values for certain properties.
 |------|--------|---------|
 | `LayoutMode` | Top, Bottom, Left, Right, Center, Middle, CenterMiddle, MiddleCenter, Full, TopScrolling, BottomScrolling, LeftScrolling, RightScrolling, LeftCenterWrap, RightCenterWrap | How a container arranges children |
 | `LabelAlignment` | Left, Right, Center | Text horizontal alignment |
-| `ProgressBarDirection` | LeftToRight, RightToLeft, BottomToTop, TopToBottom | Progress bar fill direction |
-| `ProgressBarAlignment` | Start, Center, End | Progress bar alignment |
+| `ProgressBarDirection` | Start, End | Progress bar fill direction |
+| `ProgressBarAlignment` | Horizontal, Vertical | Progress bar alignment axis |
 | `TimerDirection` | Up, Down | Timer count direction |
 | `ResizeType` | None, Horizontal, Vertical, Both | Resize behavior |
 
@@ -202,8 +202,8 @@ To create a progress bar:
 ProgressBar #HealthBar {
     Anchor: (Width: 200, Height: 20);
     Value: 0.75;
-    Direction: LeftToRight;  // ProgressBarDirection enum
-    Alignment: Start;         // ProgressBarAlignment enum
+    Direction: Start;       // ProgressBarDirection enum
+    Alignment: Horizontal;  // ProgressBarAlignment enum
     Color: #22cc22;
 }
 ```

@@ -303,7 +303,8 @@ DropdownBox #LanguageSelect {
 ProgressBar #HealthBar {
     Anchor: (Width: 200, Height: 20);
     Value: 0.75;
-    Direction: LeftToRight;
+    Direction: Start;
+    Alignment: Horizontal;
     Background: PatchStyle(Color: #333333);
     Bar: PatchStyle(Color: #22cc22);
 }
@@ -722,10 +723,8 @@ Progress bar fill direction.
 
 | Value | Description |
 |-------|-------------|
-| `LeftToRight` | Fill from left to right |
-| `RightToLeft` | Fill from right to left |
-| `TopToBottom` | Fill from top to bottom |
-| `BottomToTop` | Fill from bottom to top |
+| `Start` | Fill from the start side |
+| `End` | Fill from the end side |
 
 ---
 
@@ -735,9 +734,8 @@ Progress bar alignment within container.
 
 | Value | Description |
 |-------|-------------|
-| `Start` | Align to start |
-| `Center` | Align to center |
-| `End` | Align to end |
+| `Horizontal` | Align along horizontal axis |
+| `Vertical` | Align along vertical axis |
 
 ---
 
@@ -758,8 +756,8 @@ Timer count direction.
 |------|--------|
 | **LayoutMode** | Full, Left, Center, Right, Top, Middle, Bottom, CenterMiddle, MiddleCenter, LeftScrolling, RightScrolling, TopScrolling, BottomScrolling, LeftCenterWrap |
 | **LabelAlignment** | Left, Center, Right |
-| **ProgressBarDirection** | LeftToRight, RightToLeft, TopToBottom, BottomToTop |
-| **ProgressBarAlignment** | Start, Center, End |
+| **ProgressBarDirection** | Start, End |
+| **ProgressBarAlignment** | Horizontal, Vertical |
 | **TimerDirection** | Up, Down |
 | **ResizeType** | None, Horizontal, Vertical, Both |
 | **TooltipAlignment** | (alignment values) |
