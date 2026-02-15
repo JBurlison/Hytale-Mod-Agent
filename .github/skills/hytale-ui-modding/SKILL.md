@@ -29,6 +29,7 @@ Important: use native UI only. Do not use HyUI.
 - references/markup.md
 - references/type-documentation.md
 - references/java-api.md
+- references/anchor-ui.md
 - references/events.md
 - references/assets-and-packaging.md
 - references/examples.md

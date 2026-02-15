@@ -22,6 +22,7 @@ A comprehensive library of UI modding documentation for Hytale plugins.
 | File | Description |
 |------|-------------|
 | [java-api.md](java-api.md) | **Java UI classes** - CustomUIHud, MultipleHUD (MHUD for multiple HUDs), CustomUIPage, InteractiveCustomUIPage with event handling, UICommandBuilder, UIEventBuilder, threading requirements, ECS patterns. |
+| [anchor-ui.md](anchor-ui.md) | **Anchor UI** - Injecting interactive content into the game's built-in UI via `UpdateAnchorUI` packets. Available anchor points (#ServerEvent, #ServerContent, #ServerDetails), anchor ID convention, reflection-based sending (not in plugin API), inbound event handling via PacketFilter, timing/UiPacketGate integration. |
 | [events.md](events.md) | **Event binding** - Complete CustomUIEventBindingType reference (Activating, ValueChanged, SlotClicking, etc.), value references with @ prefix, EventData codec patterns. |
 
 ### Practical Guides
@@ -48,6 +49,8 @@ A comprehensive library of UI modding documentation for Hytale plugins.
 | Look up property type fields | [types.md](types.md) - Property Types section |
 | Look up enum values | [types.md](types.md) - Enums section |
 | Handle button clicks | [events.md](events.md) - Activating event |
+| Inject UI into game chrome (Reticle, Map, Player List) | [anchor-ui.md](anchor-ui.md) |
+| Add interactive buttons to an existing HUD | [anchor-ui.md](anchor-ui.md) - Reticle anchor |
 | Create a HUD | [java-api.md](java-api.md) - CustomUIHud section |
 | Show multiple HUDs | [java-api.md](java-api.md) - MultipleHUD section |
 | Create an interactive page | [java-api.md](java-api.md) - InteractiveCustomUIPage section |
