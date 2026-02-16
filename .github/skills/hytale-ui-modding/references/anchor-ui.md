@@ -23,6 +23,8 @@ Only elements with `#Server*`-prefixed IDs in the base game UI serve as anchor p
 | `Group #ServerContent { ... }` | `InGame/Pages/MapPage.ui` | 92 | `MapServerContent` | Map page (visible when map is open) |
 | `Group #ServerDetails { ... }` | `InGame/Hud/PlayerList.ui` | 38 | `PlayerListServerDetails` | Player list (visible when holding Tab) |
 
+> **Important:** These are the **only** usable anchor points. Asset pack overrides (`IncludesAssetPack: true`) **cannot** add new `#Server*` elements to vanilla UI files — the client only recognises anchors present in its own built-in documents. Attempting to override a vanilla `.ui` file (e.g., placing `CharacterPanel.ui` at `Common/UI/InGame/Pages/Inventory/CharacterPanel.ui`) will not create new anchor points.
+
 ### Anchor ID Convention
 
 The anchor ID is derived from the `.ui` document file name (without extension or path) concatenated with the element's `#Id` (without the `#`):
@@ -298,10 +300,10 @@ public static void clear(@Nonnull PlayerRef playerRef) {
 ## Hyforged Example: HyforgedReticleUI
 
 See `src/main/java/reign/software/hyforged/hud/HyforgedReticleUI.java` for a complete working example that:
-- Injects 3 quick-access buttons (Stats / Passive Tree / Concentration) into the Reticle HUD
+- Injects 4 quick-access buttons (Stats / Passive Tree / Concentration / Options) into the Reticle HUD
 - Uses reflection for `UpdateAnchorUI` packet construction
 - Handles inbound `CustomPageEvent` via `PacketFilter`
 - Opens `CustomUIPage` instances from button clicks
 - Integrates with `UiPacketGate` for safe packet timing
 
-UI file: `src/main/resources/Common/UI/Custom/Hyforged/HyforgedReticleButtons.ui`
+UI file: `src/main/resources/Common/UI/Custom/Hyforged/HyforgedQuickActions.ui`

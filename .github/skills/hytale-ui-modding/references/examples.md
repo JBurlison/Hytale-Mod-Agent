@@ -253,7 +253,7 @@ Group #Root {
         Group #ResultsContainer {
             FlexWeight: 1;
             LayoutMode: TopScrolling;
-            ScrollbarStyle: $Common.@DefaultScrollbar;
+            ScrollbarStyle: $Common.@DefaultScrollbarStyle;
             
             // Results will be dynamically added here
         }

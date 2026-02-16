@@ -394,7 +394,7 @@ Like Top/Bottom, but adds a scrollbar if content exceeds container height:
 ```ui
 Group {
     LayoutMode: TopScrolling;
-    ScrollbarStyle: $Common.@DefaultScrollbar;
+    ScrollbarStyle: $Common.@DefaultScrollbarStyle;
     // ... many children
 }
 ```
@@ -406,7 +406,7 @@ Like Left/Right, but adds a scrollbar for horizontal scrolling:
 ```ui
 Group {
     LayoutMode: LeftScrolling;
-    ScrollbarStyle: $Common.@DefaultScrollbar;
+    ScrollbarStyle: $Common.@DefaultScrollbarStyle;
     // ... many children
 }
 ```

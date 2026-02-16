@@ -57,7 +57,7 @@ Label {
 }
 
 Group {
-    ScrollbarStyle: $Common.@DefaultScrollbar;
+    ScrollbarStyle: $Common.@DefaultScrollbarStyle;
 }
 ```
 
@@ -96,7 +96,7 @@ The exact list of available styles and components can be viewed via the `/ui-gal
 |------------|-------------|
 | `@DefaultLabelStyle` | Standard label text styling |
 | `@DefaultButtonStyle` | Standard button styling |
-| `@DefaultScrollbar` | Default scrollbar for scrolling groups |
+| `@DefaultScrollbarStyle` | Default scrollbar for scrolling groups |
 
 ### Frequently Used Components
 
