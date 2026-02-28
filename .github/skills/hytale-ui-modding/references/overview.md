@@ -7,6 +7,7 @@ Custom UI is Hytale's framework for creating **custom user interfaces** controll
 
 - **Create custom interactive pages** - Shop interfaces, quest dialogs, server settings menus, admin panels
 - **Add custom HUD overlays** - Quest trackers, status displays, custom health bars, server information
+- **Attach HUDs to items** - Declare `.ui` overlays in item JSON that show automatically when the item is held (added in 2026.02.26-7681d338c)
 - **Design with markup** - Use `.ui` files to define reusable UI templates
 - **Handle user interactions** - Respond to button clicks, form submissions, and other events
 - **Localize your UI** - Support multiple languages using the game's translation system

@@ -490,8 +490,53 @@ Most node types support `Imported` and `Exported` nodes for reusability:
 - The `--validate-world-gen` server launch flag can be used to validate world generation assets.
 - World gen examples can be found in `HytaleGenerator/Biomes/Examples/`.
 - The Hytale Node Editor is accessible in-game from the Content Creation menu (Tab key).
-- Performance tip: In Multiplier nodes, order inputs with cheapest mask first — the node skips remaining inputs after a 0 value.
-- Performance tip: Use Cache/Cache2D nodes on expensive density lookups that are queried multiple times.
+
+---
+
+## Performance Optimization
+
+World-gen prints a performance report to server logs at configurable sample-size intervals. Open it: right-click world in world selection → open world folder → `logs/latest`. Use reports with **Sample Count ≥ 500** for accuracy.
+
+**Key metrics to watch:** `Content Generation: # ms` — the time you have the most control over. Each stage (BiomeStage, TerrainStage, PropStages, TintStage, EnvironmentStage) is listed separately.
+
+### Density / Terrain
+
+| Technique | Detail |
+|-----------|--------|
+| **Use Mix to mask expensive Density** | Limit costly density fields to only the regions that need them. Replace areas above max terrain height with `Constant(-1)` and all-underground with `Constant(1)`. |
+| **Use YSampled** | Reduces vertical sample count for density fields where full resolution isn't visually needed. Recommended `SampleDistance: 8` for best performance, `2` for high-detail areas. Mix sampled and non-sampled versions for precision only where needed. |
+| **Cache nodes** | Add `Cache` on the right side of YOverride nodes, and at the root of ChoiceDensity/CellValue Density. `SimplexNoise2d` and `CellNoise2d` already cache automatically. |
+| **Use Mix over Sum/Min/Max** | Mix disables fields where they aren't needed; Sum/Min/Max always evaluate all inputs. |
+| **Avoid unnecessary Density gradients** | Gradients resolve the child 4x per position. Mask them out. Inside Material Providers, use the `TerrainDensity` node (reuses existing buffers) rather than importing the terrain root density. |
+| **2D where possible** | Use 3D density only when required. 3D domain warping invalidates 2D caches from all child nodes. |
+| **WorldStructure tuning** | Don't set `DefaultTransitionDistance` and `MaxBiomeEdgeDistance` higher than necessary — they affect BiomeStage and TerrainStage output sizes. |
+
+### Materials
+
+- Put expensive Material Providers as far **right** in the tree as possible; cheap limiters go **left**.
+- `SimpleHorizontal` reduces the height range for its children.
+- `SpaceAndDepth` reduces the depth range for its children.
+- Use `FieldFunction` with a cheap density mask to limit an expensive Material Provider to a specific world region.
+- Use `TerrainDensity` node inside Material Providers when referencing the terrain's density for gradients.
+
+### Props
+
+- Keep each Runtime's horizontal size as small as possible — it's determined by the **largest Prop** in that Runtime.
+- Put Props with the largest horizontal size at the **lowest Runtime index**.
+- Pack as many Props into one Runtime as possible. Only create new Runtimes when Props need context from other Props.
+- All Biomes in a WorldStructure should use the **same Runtime indices** to avoid multiplying Runtimes.
+- Break large Props into smaller modular pieces assembled at the Prop Distribution level.
+
+### Quick Checklist
+
+1. Try 2D over 3D everywhere possible.
+2. Place `Cache` on the right side of all `YOverride` nodes.
+3. Add `YSampled` at the root of each Biome's Density as a first pass.
+4. Use `Mix` (not `Sum`) to cap terrain above max height and below min height.
+5. Ensure all Biomes share the same Runtime indices.
+6. Check `DefaultTransitionDistance` and `MaxBiomeEdgeDistance` in WorldStructure — keep them minimal.
+
+> **Source:** [hytalemodding.dev — World Generation Optimization](https://hytalemodding.dev/en/docs/official-documentation/worldgen/worldgen-tutorial/optimization-wip)
 
 > **Source:** [hytalemodding.dev — World Generation System](https://hytalemodding.dev/en/docs/guides/plugin/world-gen)
 > **Source:** [HytaleModding/site — Official World Generation Documentation](https://github.com/HytaleModding/site/tree/main/content/docs/en/official-documentation/worldgen)
