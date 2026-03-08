@@ -8,6 +8,8 @@ description: Documents Hytale's player/entity stat system for reading and modify
 Use this skill when reading or modifying player/entity stats (health, stamina, mana, etc.) in Hytale plugins. Stats are managed through the `EntityStatMap` component and accessed via `DefaultEntityStatTypes`.
 
 > **Source:** <https://hytalemodding.dev/en/docs/guides/plugin/player-stats>
+>
+> **Note:** Current server packages place `EntityStatMap` under `server.core.modules.entitystats` and ECS handles under `com.hypixel.hytale.component.*`.
 
 ---
 
@@ -62,13 +64,13 @@ Each stat type (e.g., `DefaultEntityStatTypes.getHealth()`) returns a stat index
 ## Required Imports
 
 ```java
-import com.hypixel.hytale.server.ecs.entity.component.stats.EntityStatMap;
-import com.hypixel.hytale.server.ecs.entity.component.stats.DefaultEntityStatTypes;
-import com.hypixel.hytale.server.world.World;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.Message;
-import com.hypixel.server.ecs.store.EntityStore;
-import com.hypixel.server.ecs.store.Ref;
-import com.hypixel.server.ecs.store.Store;
+import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
+import com.hypixel.hytale.server.core.modules.entitystats.asset.DefaultEntityStatTypes;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 ```
 
 ---
@@ -95,8 +97,7 @@ Ref<EntityStore> playerRef = /* obtain player ref */;
 
 // 2. Get the store and world
 Store<EntityStore> store = playerRef.getStore();
-EntityStore entityStore = store.getExternalData();
-World world = entityStore.getWorld();
+World world = store.getExternalData().getWorld();
 
 // 3. Modify on the world thread
 world.execute(() -> {
@@ -128,8 +129,7 @@ public class HealCommand extends CommandBase {
 
         // 2. Get the store and the world
         Store<EntityStore> store = playerRef.getStore();
-        EntityStore entityStore = store.getExternalData();
-        World world = entityStore.getWorld();
+        World world = store.getExternalData().getWorld();
 
         // 3. Perform modification on the world thread
         world.execute(() -> {
@@ -171,8 +171,7 @@ public class DamageSelfCommand extends CommandBase {
 
         // 3. Get the store and the world
         Store<EntityStore> store = playerRef.getStore();
-        EntityStore entityStore = store.getExternalData();
-        World world = entityStore.getWorld();
+        World world = store.getExternalData().getWorld();
 
         // 4. Perform modification on the world thread
         world.execute(() -> {

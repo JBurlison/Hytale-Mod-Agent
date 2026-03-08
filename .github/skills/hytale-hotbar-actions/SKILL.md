@@ -8,6 +8,8 @@ description: Customizes hotbar key actions in Hytale plugins using packet filter
 Use this skill when implementing custom hotbar keybinds in Hytale plugins. This covers intercepting slot-switch packets, blocking default behavior, and triggering custom abilities.
 
 > **Note:** This pattern only works for hotbar slots. Each custom action consumes one hotbar slot.
+>
+> **Related reference:** For the full `InteractionType` list and current packet semantics, see `hytale-player-input` and the official `server/interaction-reference` page.
 
 ---
 
@@ -60,19 +62,23 @@ Use `PlayerPacketFilter` when you need to block the slot switch.
 ```java
 import com.hypixel.hytale.protocol.Packet;
 import com.hypixel.hytale.protocol.InteractionType;
+import com.hypixel.hytale.protocol.Color;
 import com.hypixel.hytale.protocol.packets.interaction.SyncInteractionChain;
 import com.hypixel.hytale.protocol.packets.interaction.SyncInteractionChains;
 import com.hypixel.hytale.protocol.packets.inventory.SetActiveSlot;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.io.adapter.PlayerPacketFilter;
 import com.hypixel.hytale.server.core.io.adapter.PacketAdapters;
 import com.hypixel.hytale.server.core.io.adapter.PacketFilter;
-import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.inventory.Inventory;
-import com.hypixel.hytale.server.core.universe.Store;
-import com.hypixel.hytale.server.core.universe.entity.EntityStore;
-import com.hypixel.hytale.server.core.universe.entity.Ref;
-import com.hypixel.hytale.server.player.Player;
-import com.hypixel.hytale.server.world.World;
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.plugin.JavaPlugin;
+import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import javax.annotation.Nonnull;
 import java.util.logging.Level;
 ```
@@ -353,32 +359,37 @@ plugin.getLogger().at(Level.INFO).log(
 ```java
 package com.example.abilities;
 
-import com.hypixel.hytale.protocol.Packet;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.protocol.Color;
 import com.hypixel.hytale.protocol.InteractionType;
+import com.hypixel.hytale.protocol.Packet;
 import com.hypixel.hytale.protocol.packets.interaction.SyncInteractionChain;
 import com.hypixel.hytale.protocol.packets.interaction.SyncInteractionChains;
 import com.hypixel.hytale.protocol.packets.inventory.SetActiveSlot;
-import com.hypixel.hytale.server.HytaleServerPlugin;
-import com.hypixel.hytale.server.core.Message;
-import com.hypixel.hytale.server.core.Color;
 import com.hypixel.hytale.server.core.io.adapter.PacketAdapters;
 import com.hypixel.hytale.server.core.io.adapter.PacketFilter;
 import com.hypixel.hytale.server.core.io.adapter.PlayerPacketFilter;
 import com.hypixel.hytale.server.core.inventory.Inventory;
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.plugin.JavaPlugin;
+import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
-import com.hypixel.hytale.server.core.universe.Store;
-import com.hypixel.hytale.server.core.universe.entity.EntityStore;
-import com.hypixel.hytale.server.core.universe.entity.Ref;
-import com.hypixel.hytale.server.player.Player;
-import com.hypixel.hytale.server.world.World;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AbilityPlugin extends HytaleServerPlugin {
+public class AbilityPlugin extends JavaPlugin {
     private PacketFilter inboundFilter;
+
+    public AbilityPlugin(@Nonnull JavaPluginInit init) {
+        super(init);
+    }
     
     @Override
     protected void setup() {
@@ -457,7 +468,7 @@ class AbilitySlotHandler implements PlayerPacketFilter {
             cooldowns.put(playerId, System.currentTimeMillis());
             
             // Trigger ability
-            playerRef.sendMessage(Message.raw("⚡ Ability activated!").color(Color.YELLOW));
+            playerRef.sendMessage(Message.raw("Ability activated!").color(Color.YELLOW));
         });
     }
     

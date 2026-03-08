@@ -8,6 +8,8 @@ description: Documents Hytale's item system including the Item Registry API, cus
 Comprehensive reference for creating custom items, querying the item registry, defining crafting recipes, and building custom interactions in Hytale plugins.
 
 > **Related skills:** For persistent data/Codec patterns, see `hytale-persistent-data`. For ECS fundamentals, see `hytale-ecs`. For inventory management, see the Hytale inventory APIs. For entity effects applied by items, see `hytale-entity-effects`.
+>
+> **Related reference:** For the canonical interaction list and trigger semantics, see the official `server/interaction-reference` page.
 
 ## Quick Reference
 
@@ -206,12 +208,12 @@ Custom interactions define what happens when a player uses an item. They are imp
 Extend `SimpleInstantInteraction` and override `firstRun`:
 
 ```java
-import com.hypixel.hytale.server.core.asset.type.item.interaction.SimpleInstantInteraction;
-import com.hypixel.hytale.server.core.asset.type.item.interaction.InteractionType;
-import com.hypixel.hytale.server.core.asset.type.item.interaction.InteractionContext;
-import com.hypixel.hytale.server.core.asset.type.item.interaction.CooldownHandler;
-import com.hypixel.hytale.server.core.asset.type.item.interaction.Interaction;
 import com.hypixel.hytale.codec.BuilderCodec;
+import com.hypixel.hytale.protocol.InteractionType;
+import com.hypixel.hytale.server.core.entity.InteractionContext;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 
 import javax.annotation.Nonnull;
 
@@ -278,21 +280,21 @@ The interaction type key (`"Secondary"`, `"Primary"`, etc.) determines which pla
 A complete interaction that sends a message with the item ID to the player:
 
 ```java
-import com.hypixel.hytale.server.core.asset.type.item.interaction.SimpleInstantInteraction;
-import com.hypixel.hytale.server.core.asset.type.item.interaction.InteractionType;
-import com.hypixel.hytale.server.core.asset.type.item.interaction.InteractionContext;
-import com.hypixel.hytale.server.core.asset.type.item.interaction.InteractionState;
-import com.hypixel.hytale.server.core.asset.type.item.interaction.CooldownHandler;
-import com.hypixel.hytale.server.ecs.store.EntityStore;
-import com.hypixel.hytale.server.ecs.ref.Ref;
-import com.hypixel.hytale.server.ecs.store.Store;
-import com.hypixel.hytale.server.ecs.CommandBuffer;
-import com.hypixel.hytale.server.player.Player;
-import com.hypixel.hytale.server.item.ItemStack;
-import com.hypixel.hytale.server.world.World;
 import com.hypixel.hytale.codec.BuilderCodec;
+import com.hypixel.hytale.component.CommandBuffer;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.protocol.InteractionType;
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.entity.InteractionContext;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.InteractionState;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.logging.HytaleLogger;
-import com.hypixel.hytale.server.text.Message;
 
 import javax.annotation.Nonnull;
 

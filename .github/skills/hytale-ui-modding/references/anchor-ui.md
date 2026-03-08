@@ -31,6 +31,29 @@ In the current workspace build, a case-sensitive scan of `lib/UI/**/*.ui` finds 
 
 In the decompiled built-in server code for this drop, the only concrete `UpdateAnchorUI` usage found is `MapServerContent` in `ReturnToHubButtonUI`. That does not limit plugin usage to the map anchor; it just confirms the shipped server only uses one of the three available anchors itself.
 
+### Quick Audit Snippet
+
+Use this PowerShell command after server updates to enumerate the exact built-in anchor roots from the client UI bundle:
+
+```powershell
+Get-ChildItem "c:\source\Reign-software\lib\UI" -Recurse -Filter *.ui |
+    ForEach-Object {
+        $path = $_.FullName
+        $lineNumber = 0
+        Get-Content $_.FullName | ForEach-Object {
+            $lineNumber++
+            if ($_ -cmatch '^\s*Group\s+#(?<id>Server[A-Z_][A-Za-z0-9_]*)\b') {
+                "{0}:{1}:{2}" -f $path, $lineNumber, $matches['id']
+            }
+        }
+    }
+```
+
+Interpretation:
+- Matches are case-sensitive on purpose. This avoids false positives such as `#ServersTable`.
+- Only `Group #Server...` elements are Anchor UI insertion roots.
+- Other `#Server...` IDs are normal controls unless they appear as one of those group anchors.
+
 ### Anchor ID Convention
 
 The anchor ID is derived from the `.ui` document file name (without extension or path) concatenated with the element's `#Id` (without the `#`):

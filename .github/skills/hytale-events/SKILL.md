@@ -80,9 +80,9 @@ public class MyEventHandler {
 ```java
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.hypixel.hytale.server.event.player.PlayerReadyEvent;
-import com.hypixel.hytale.server.event.player.PlayerDisconnectEvent;
-import com.hypixel.hytale.server.event.ShutdownEvent;
+import com.hypixel.hytale.server.core.event.events.ShutdownEvent;
+import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
+import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 ```
 
 ### Available IEvent Types
@@ -213,10 +213,10 @@ ECS events are fired within the ECS tick loop and operate on entities matching a
 import com.hypixel.hytale.component.ArchetypeChunk;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.component.query.Archetype;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.ecs.system.EntityEventSystem;
 import javax.annotation.Nonnull;
 
 class MyCraftHandler extends EntityEventSystem<EntityStore, CraftRecipeEvent.Pre> {
@@ -268,8 +268,8 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Archetype;
 import com.hypixel.hytale.component.query.Query;
+import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.ecs.system.EntityEventSystem;
 import javax.annotation.Nonnull;
 ```
 
@@ -371,11 +371,11 @@ protected void start() {
 A full plugin demonstrating all three event categories:
 
 ```java
-import com.hypixel.hytale.server.plugin.JavaPlugin;
-import com.hypixel.hytale.server.plugin.JavaPluginInit;
-import com.hypixel.hytale.server.event.player.PlayerReadyEvent;
-import com.hypixel.hytale.server.event.player.PlayerDisconnectEvent;
-import com.hypixel.hytale.server.event.PlayerChatEvent;
+import com.hypixel.hytale.server.core.event.events.player.PlayerChatEvent;
+import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
+import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
+import com.hypixel.hytale.server.core.plugin.JavaPlugin;
+import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import javax.annotation.Nonnull;
 
 public class MyPlugin extends JavaPlugin {

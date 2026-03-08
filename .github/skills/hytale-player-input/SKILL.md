@@ -5,7 +5,9 @@ description: Documents Hytale's player input system including packet interceptio
 
 # Hytale Player Input Skill
 
-Use this skill when working with player input handling in Hytale plugins. This covers how the client communicates input to the server via packets, how to intercept and filter those packets, all InteractionTypes, the complete client-to-server packet reference, and custom camera controls.
+Use this skill when working with player input handling in Hytale plugins. This covers how the client communicates input to the server via packets, how to intercept and filter those packets, the interaction types you will commonly use in plugins, a practical client-to-server packet reference, and custom camera controls.
+
+> **Sources:** <https://hytalemodding.dev/en/docs/guides/plugin/listening-to-packets>, <https://hytalemodding.dev/en/docs/guides/plugin/player-input-guide>, <https://hytalemodding.dev/en/docs/server/client-inputs-reference>, <https://hytalemodding.dev/en/docs/server/interaction-reference>
 
 > **Related skills:** For hotbar-specific slot customization (ability slots), see `hytale-hotbar-actions`. For game events (PlayerReady, chat, damage, etc.), see `hytale-events`. For UI-based input, see `hytale-ui-modding`.
 
@@ -20,6 +22,7 @@ Use this skill when working with player input handling in Hytale plugins. This c
 | Block/cancel inbound packets | `PacketAdapters.registerInbound((PlayerPacketFilter) ...)` — return `true` to cancel |
 | Listen to outbound packets | `PacketAdapters.registerOutbound((PacketWatcher) ...)` |
 | Detect player interactions (left/right click, F key) | Intercept `SyncInteractionChains` (packet ID 290) |
+| Browse the canonical interaction list | See `server/interaction-reference` |
 | Detect mouse input | Intercept `MouseInteraction` (packet ID 111) |
 | Detect player movement | Intercept `ClientMovement` (packet ID 108) |
 | Customize camera | Send `SetServerCamera` packet with `ServerCameraSettings` |
@@ -167,7 +170,7 @@ import com.hypixel.hytale.server.core.auth.PlayerAuthentication;
 
 ## Part 4: InteractionType Reference
 
-All interaction types from `InteractionType` enum:
+Use the official `server/interaction-reference` page as the canonical source for the full enum and any additions in newer server drops. The table below is the practical set commonly referenced in plugin code:
 
 | Name | Ordinal | Description |
 |------|---------|-------------|
@@ -354,6 +357,8 @@ public class MyPlugin extends HytaleServerPlugin {
 ---
 
 ## Part 7: Client-to-Server Packet Reference
+
+This is a plugin-focused reference for the packets most relevant to input handling. For exhaustive protocol details, verify against the current packet registry in the decompiled server source.
 
 Packets are found in: `com.hypixel.hytale.protocol.packets`
 
