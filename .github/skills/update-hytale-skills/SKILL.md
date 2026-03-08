@@ -43,6 +43,7 @@ content/docs/en/
 │   ├── java-basics/                  # Java tutorial series (skip — not skill material)
 │   │   ├── 00-introduction.mdx ... 13-inheritance.mdx
 │   ├── plugin/                       # Plugin guides (most skills map here)
+│   │   ├── animated-block-textures.mdx
 │   │   ├── chat-formatting.mdx
 │   │   ├── creating-commands.mdx
 │   │   ├── creating-configuration-file.mdx
@@ -63,6 +64,7 @@ content/docs/en/
 │   │   ├── send-notifications.mdx
 │   │   ├── spawning-entities.mdx
 │   │   ├── spawning-npcs.mdx
+│   │   ├── tracking-mod-analytics-with-hstats.mdx
 │   │   ├── store-persistent-data.mdx
 │   │   ├── teleporting-players.mdx
 │   │   ├── text-hologram.mdx
@@ -88,8 +90,10 @@ content/docs/en/
 │       ├── technical-hytale-generator/
 │       └── worldgen-tutorial/
 ├── server/                           # Server reference docs
+│   ├── argtypes.mdx
 │   ├── entities.mdx
 │   ├── events.mdx
+│   ├── interaction-reference.mdx
 │   └── sounds.mdx
 └── index.mdx
 ```
@@ -109,13 +113,14 @@ The table below maps each `hytale-*` skill to its upstream documentation source(
 | `hytale-config-files` | `guides/plugin/creating-configuration-file.mdx` | [creating-configuration-file](https://hytalemodding.dev/en/docs/guides/plugin/creating-configuration-file) |
 | `hytale-ecs` | `guides/ecs/entity-component-system.mdx`, `guides/ecs/hytale-ecs-theory.mdx`, `guides/ecs/systems.mdx`, `guides/ecs/example-ecs-plugin.mdx`, `guides/ecs/block-components.mdx` | [entity-component-system](https://hytalemodding.dev/en/docs/guides/ecs/entity-component-system), [hytale-ecs-theory](https://hytalemodding.dev/en/docs/guides/ecs/hytale-ecs-theory), [systems](https://hytalemodding.dev/en/docs/guides/ecs/systems), [example-ecs-plugin](https://hytalemodding.dev/en/docs/guides/ecs/example-ecs-plugin), [block-components](https://hytalemodding.dev/en/docs/guides/ecs/block-components) |
 | `hytale-events` | `guides/plugin/creating-events.mdx`, `server/events.mdx` | [creating-events](https://hytalemodding.dev/en/docs/guides/plugin/creating-events), [events](https://hytalemodding.dev/en/docs/server/events) |
-| `hytale-hotbar-actions` | `guides/plugin/customizing-hotbar-actions.mdx`, `guides/plugin/listening-to-packets.mdx` | [customizing-hotbar-actions](https://hytalemodding.dev/en/docs/guides/plugin/customizing-hotbar-actions), [listening-to-packets](https://hytalemodding.dev/en/docs/guides/plugin/listening-to-packets) |
+| `hytale-hotbar-actions` | `guides/plugin/customizing-hotbar-actions.mdx`, `guides/plugin/listening-to-packets.mdx`, `server/interaction-reference.mdx` | [customizing-hotbar-actions](https://hytalemodding.dev/en/docs/guides/plugin/customizing-hotbar-actions), [listening-to-packets](https://hytalemodding.dev/en/docs/guides/plugin/listening-to-packets), [interaction-reference](https://hytalemodding.dev/en/docs/server/interaction-reference) |
 | `hytale-instances` | `guides/plugin/instances.mdx` | [instances](https://hytalemodding.dev/en/docs/guides/plugin/instances) |
 | `hytale-inventory` | `guides/plugin/inventory-management.mdx` | [inventory-management](https://hytalemodding.dev/en/docs/guides/plugin/inventory-management) |
 | `hytale-notifications` | `guides/plugin/send-notifications.mdx`, `server/entities.mdx` | [send-notifications](https://hytalemodding.dev/en/docs/guides/plugin/send-notifications), [entities](https://hytalemodding.dev/en/docs/server/entities) |
 | `hytale-npc-templates` | `official-documentation/npc/` (all 12 chapters) | [npc](https://hytalemodding.dev/en/docs/official-documentation/npc) |
 | `hytale-persistent-data` | `guides/plugin/store-persistent-data.mdx`, `guides/ecs/hytale-ecs-theory.mdx`, `guides/ecs/entity-component-system.mdx`, `guides/ecs/systems.mdx` | [store-persistent-data](https://hytalemodding.dev/en/docs/guides/plugin/store-persistent-data) |
 | `hytale-player-death-event` | `guides/plugin/player-death-event.mdx` | [player-death-event](https://hytalemodding.dev/en/docs/guides/plugin/player-death-event) |
+| `hytale-player-input` | `guides/plugin/player-input-guide.mdx`, `guides/plugin/client-inputs-reference.mdx`, `guides/plugin/listening-to-packets.mdx`, `server/interaction-reference.mdx` | [player-input-guide](https://hytalemodding.dev/en/docs/guides/plugin/player-input-guide), [client-inputs-reference](https://hytalemodding.dev/en/docs/guides/plugin/client-inputs-reference), [listening-to-packets](https://hytalemodding.dev/en/docs/guides/plugin/listening-to-packets), [interaction-reference](https://hytalemodding.dev/en/docs/server/interaction-reference) |
 | `hytale-player-stats` | `guides/plugin/player-stats.mdx` | [player-stats](https://hytalemodding.dev/en/docs/guides/plugin/player-stats) |
 | `hytale-playing-sounds` | `guides/plugin/playing-sounds.mdx`, `server/sounds.mdx` | [playing-sounds](https://hytalemodding.dev/en/docs/guides/plugin/playing-sounds), [sounds](https://hytalemodding.dev/en/docs/server/sounds) |
 | `hytale-spawning-entities` | `guides/plugin/spawning-entities.mdx`, `server/entities.mdx` | [spawning-entities](https://hytalemodding.dev/en/docs/guides/plugin/spawning-entities), [entities](https://hytalemodding.dev/en/docs/server/entities) |
@@ -123,10 +128,10 @@ The table below maps each `hytale-*` skill to its upstream documentation source(
 | `hytale-teleporting-players` | `guides/plugin/teleporting-players.mdx` | [teleporting-players](https://hytalemodding.dev/en/docs/guides/plugin/teleporting-players) |
 | `hytale-text-holograms` | `guides/plugin/text-hologram.mdx` | [text-hologram](https://hytalemodding.dev/en/docs/guides/plugin/text-hologram) |
 | `hytale-ui-modding` | `official-documentation/custom-ui/common-styling.mdx`, `official-documentation/custom-ui/layout.mdx`, `official-documentation/custom-ui/markup.mdx`, `official-documentation/custom-ui/type-documentation/`, `guides/plugin/ui.mdx` | [custom-ui](https://hytalemodding.dev/en/docs/official-documentation/custom-ui) |
-| `hytale-world-gen` | `guides/plugin/world-gen.mdx`, `official-documentation/worldgen/` (all subdirs) | [world-gen](https://hytalemodding.dev/en/docs/guides/plugin/world-gen) |
-| `hytale-blocks` | `guides/plugin/creating-block.mdx` | [creating-block](https://hytalemodding.dev/en/docs/guides/plugin/creating-block) |
+| `hytale-world-gen` | `guides/plugin/world-gen.mdx`, `official-documentation/worldgen/worldgen-tutorial/README.mdx`, `official-documentation/worldgen/worldgen-tutorial/density-generation-concepts.mdx`, `official-documentation/worldgen/worldgen-tutorial/materials-generation-concepts.mdx`, `official-documentation/worldgen/worldgen-tutorial/prop-generation-concepts.mdx`, `official-documentation/worldgen/worldgen-tutorial/optimization-wip.mdx`, `official-documentation/worldgen/technical-hytale-generator/` (all files), `official-documentation/worldgen/pack-tutorial/` (all files) | [world-gen](https://hytalemodding.dev/en/docs/guides/plugin/world-gen), [worldgen-tutorial](https://hytalemodding.dev/en/docs/official-documentation/worldgen/worldgen-tutorial) |
+| `hytale-blocks` | `guides/plugin/creating-block.mdx`, `guides/plugin/animated-block-textures.mdx` | [creating-block](https://hytalemodding.dev/en/docs/guides/plugin/creating-block), [animated-block-textures](https://hytalemodding.dev/en/docs/guides/plugin/animated-block-textures) |
 | `hytale-prefabs` | `guides/prefabs.mdx` | [prefabs](https://hytalemodding.dev/en/docs/guides/prefabs) |
-| `hytale-commands` | `guides/plugin/creating-commands.mdx` | [creating-commands](https://hytalemodding.dev/en/docs/guides/plugin/creating-commands) |
+| `hytale-commands` | `guides/plugin/creating-commands.mdx`, `server/argtypes.mdx` | [creating-commands](https://hytalemodding.dev/en/docs/guides/plugin/creating-commands), [argtypes](https://hytalemodding.dev/en/docs/server/argtypes) |
 | `hytale-items` | `guides/plugin/item-interaction.mdx`, `guides/plugin/item-registry.mdx` | [item-interaction](https://hytalemodding.dev/en/docs/guides/plugin/item-interaction), [item-registry](https://hytalemodding.dev/en/docs/guides/plugin/item-registry) |
 
 ### Skills Without Upstream Doc URLs (Server Source Only)
@@ -138,7 +143,6 @@ These skills were built primarily from decompiled server source and do not have 
 | `hytale-entity-effects` | `com.hypixel.server.ecs.components.effects`, `com.hypixel.server.entity.effect` |
 | `hytale-logging` | `com.hypixel.server.log`, `com.hypixel.common.log` |
 | `hytale-permissions` | `com.hypixel.server.permission` |
-| `hytale-player-input` | `com.hypixel.server.network.packet`, `com.hypixel.server.input` |
 | `hytale-plugin-config` | `com.hypixel.server.plugin` |
 | `hytale-tag-system` | `com.hypixel.server.asset`, `com.hypixel.server.registry` |
 
@@ -267,14 +271,19 @@ Search `lib/hytale-server/src/main/java/com/hypixel/` for the classes mentioned 
 | Doc File | Status | Recommendation |
 |----------|--------|----------------|
 | `guides/plugin/creating-block.mdx` | **DONE** — `hytale-blocks` | Block creation, asset packs, block JSON, textures, materials |
+| `guides/plugin/animated-block-textures.mdx` | Extends `hytale-blocks` | Animated model blocks, `CustomModelTexture`, `CustomModelAnimation`, `.blockyanim` |
 | `guides/prefabs.mdx` | **DONE** — `hytale-prefabs` | Prefab system, commands, reusable structures |
 | `guides/plugin/item-interaction.mdx` | **DONE** — merged into `hytale-items` | Interaction content in `hytale-items` skill |
 | `guides/plugin/item-registry.mdx` | **DONE** — merged into `hytale-items` | Registry content in `hytale-items` skill |
+| `guides/plugin/player-input-guide.mdx` | Extends `hytale-player-input` | Core player input flow and packet interception patterns |
 | `guides/plugin/client-inputs-reference.mdx` | Extends `hytale-player-input` | Merge reference content into `hytale-player-input` skill |
 | `guides/plugin/listening-to-packets.mdx` | Extends `hytale-player-input` | Merge packet content into `hytale-player-input` skill |
+| `server/interaction-reference.mdx` | Extends `hytale-player-input` and `hytale-items` | Canonical interaction types, rules, cooldown, chaining, and asset fields |
+| `server/argtypes.mdx` | Extends `hytale-commands` | Full authoritative `ArgTypes` reference |
 | `guides/plugin/browsing-serverjar.mdx` | Meta-guide | Skip — not skill material |
 | `guides/plugin/build-and-test.mdx` | Meta-guide | Skip — not skill material |
 | `guides/plugin/setting-up-env.mdx` | Meta-guide | Skip — not skill material |
+| `guides/plugin/tracking-mod-analytics-with-hstats.mdx` | Meta-guide unless project uses HStats | Usually skip unless you want a dedicated analytics skill |
 
 **Update this table** each time you run the discovery process. Remove entries that have been addressed and add new ones found.
 

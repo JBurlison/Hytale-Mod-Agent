@@ -1,13 +1,13 @@
 ---
 name: hytale-blocks
-description: Documents how to create custom blocks in Hytale plugins using asset packs and JSON definitions. Use when creating blocks, defining block JSON, configuring block textures, materials, gathering, block types, or setting up block asset folder structure. Triggers - block, create block, custom block, BlockType, block JSON, block definition, block texture, block material, DrawType, Gathering, block creation, asset pack, IncludesAssetPack, block item, Cube block, block sound, block particle.
+description: Documents how to create custom blocks in Hytale plugins using asset packs and JSON definitions. Use when creating blocks, defining block JSON, configuring static or animated block visuals, materials, gathering, block types, or setting up block asset folder structure. Triggers - block, create block, custom block, BlockType, block JSON, block definition, block texture, animated block texture, .blockyanim, block material, DrawType, CustomModel, CustomModelTexture, CustomModelAnimation, Gathering, block creation, asset pack, IncludesAssetPack, block item, Cube block, block sound, block particle.
 ---
 
 # Hytale Custom Blocks
 
-Reference for creating custom blocks in Hytale plugins via asset packs and JSON item definitions with `BlockType` configuration.
+Reference for creating custom blocks in Hytale plugins via asset packs and JSON item definitions with `BlockType` configuration, including animated model-based blocks.
 
-> **Source:** <https://hytalemodding.dev/en/docs/guides/plugin/creating-block>
+> **Source:** <https://hytalemodding.dev/en/docs/guides/plugin/creating-block>, <https://hytalemodding.dev/en/docs/guides/plugin/animated-block-textures>
 > **Related skills:** For block *components* and ECS ticking behavior, see `hytale-ecs`. For items and interactions, see `hytale-items`.
 
 ---
@@ -21,6 +21,7 @@ Reference for creating custom blocks in Hytale plugins via asset packs and JSON 
 | Set block texture | `"Textures": [{ "All": "BlockTextures/<name>.png" }]` |
 | Set block material | `"Material": "Solid"` (or `Liquid`, `NonSolid`, etc.) |
 | Set draw type | `"DrawType": "Cube"` (or `Cross`, `Slab`, etc.) |
+| Use an animated model block | Set `"DrawType": "Model"` with `CustomModel`, `CustomModelTexture`, and `CustomModelAnimation` |
 | Add localized name | `Server/Languages/en-US/items.lang` → `<name>.name = Display Name` |
 | Set gathering/breaking | `"Gathering": { "Breaking": { "GatherType": "...", "ItemId": "..." } }` |
 | Set block icon | `"Icon": "Icons/ItemsGenerated/<name>.png"` |
@@ -164,6 +165,30 @@ Per-face texturing (when supported):
   }
 ]
 ```
+
+### Animated Model Blocks
+
+The newer animated block textures guide extends block creation with model-backed visuals.
+
+Use a model draw type and point the block at a `.blockymodel`, texture asset, and `.blockyanim`:
+
+```json
+"BlockType": {
+  "DrawType": "Model",
+  "CustomModel": "VFX/Blue_Fire/Blue_Fire.blockymodel",
+  "CustomModelAnimation": "Blocks/Animations/Blue_Fire/Blue_Fire_Burn.blockyanim",
+  "CustomModelTexture": [
+    {
+      "Texture": "VFX/Blue_Fire/Blue_Fire.png",
+      "Weight": 1
+    }
+  ],
+  "Looping": true,
+  "RequiresAlphaBlending": false
+}
+```
+
+Use this pattern for animated fire, magical effects, or other blocks that are really model-driven visuals instead of face-textured cubes.
 
 ---
 

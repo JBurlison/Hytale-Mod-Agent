@@ -5,7 +5,7 @@ description: Updates the Hytale server reference files in lib/ by downloading th
 
 # Update Server Lib Skill
 
-Updates the `lib/` folder with the latest Hytale pre-release server files including decompiled source code and server assets.
+Updates the `lib/` folder with the latest Hytale pre-release server files including decompiled source code and server assets. The `lib/` folder lives **outside** the plugin git repo as a sibling directory (e.g., `../lib/` relative to the repo root) and is referenced via the VS Code workspace.
 
 ## Prerequisites
 
@@ -20,6 +20,23 @@ Before running these scripts, ensure the following are installed and on PATH:
 ## Directory Structure
 
 ```
+hyforged/                        # Plugin git repo
+├── .github/skills/update-server-lib/
+│   ├── SKILL.md
+│   ├── LAST_VERSION.txt
+│   └── scripts/
+│       ├── Download-Server.cmd
+│       ├── Update-Lib.cmd
+│       └── Full-Update.cmd
+└── ...
+
+lib/                             # Sibling folder (outside git repo)
+├── HytaleServer.jar
+├── hytale-server/
+│   └── src/main/java/           # Decompiled source
+├── Server/                      # Server assets
+└── UI/                          # UI assets
+
 <HYTALE_DOWNLOADER_PATH>\              # Default: C:\hytale-downloader\
 ├── hytale-downloader-windows-amd64.exe
 ├── .hytale-downloader-credentials.json
@@ -77,10 +94,11 @@ This script:
 - Clones/updates the HytaleModding/patcher tool
 - Sets up Python virtual environment
 - Runs Vineflower decompilation on HytaleServer.jar
-- Copies decompiled source to `lib/hytale-server/src/main/java`
-- Copies Server assets to `lib/Server`
-- Copies UI assets to `lib/UI`
+- Copies decompiled source to `../lib/hytale-server/src/main/java` (sibling lib folder)
+- Copies Server assets to `../lib/Server`
+- Copies UI assets to `../lib/UI`
 - Updates HytaleServer.jar in lib root
+- Updates `hytale.server.version` in pom.xml
 
 ## Script Configuration
 
@@ -120,6 +138,7 @@ After a successful update, the script creates `.github/skills/update-server-lib/
 ## Notes
 
 - The decompiled code may have compilation errors - this is expected. It's for reference/exploration only.
-- Server assets in `lib/Server` are read-only references; don't modify them directly.
-- UI assets in `lib/UI` are for reference when building custom UIs.
+- Server assets in `../lib/Server` are read-only references; don't modify them directly.
+- UI assets in `../lib/UI` are for reference when building custom UIs.
+- The `lib/` folder is **not** part of the plugin git repo. It is a sibling directory referenced via the VS Code workspace.
 - Always test your plugin after updating to ensure compatibility with the new server version.

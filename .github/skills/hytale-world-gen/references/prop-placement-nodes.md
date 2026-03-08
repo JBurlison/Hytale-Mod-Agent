@@ -1,6 +1,8 @@
-# Prop Placement Nodes Reference (Props, Positions, Scanners, Assignments, Directionality)
+# Prop Placement Nodes Reference (Props, Positions, Scanners, Assignments, Legacy Directionality)
 
 > **Source:** [Official Hytale World Generation Documentation](https://github.com/HytaleModding/site/tree/main/content/docs/en/official-documentation/worldgen)
+
+Directionality coverage was removed from the current upstream docs. The notes below preserve older reference material and should be re-verified against the current server and asset data before use.
 
 These node categories work together in a pipeline to place content in the world:
 
@@ -186,7 +188,7 @@ Imports an exported Assignments.
 
 ---
 
-## Directionality
+## Legacy Directionality
 
 Determines the direction (rotation) to place a Prop.
 

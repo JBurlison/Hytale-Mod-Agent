@@ -1,11 +1,13 @@
 ---
 name: hytale-persistent-data
-description: Stores persistent data on players and entities using custom components with Codec serialization in Hytale plugins. Use when saving player data across sessions, creating custom player components, serializing complex data types to BSON, or persisting entity state. Triggers - persistent data, player data, save data, BuilderCodec, KeyedCodec, putComponent, ensureAndGetComponent, BSON serialization, player state, custom component, session data.
+description: Stores persistent data on players and entities using custom components with Codec serialization in Hytale plugins. Use when saving player data across sessions, creating custom player components, serializing complex data types to BSON, or persisting entity state. Triggers - persistent data, player data, save data, BuilderCodec, KeyedCodec, ComponentType, Ref, Store, putComponent, ensureAndGetComponent, BSON serialization, player state, custom component, session data.
 ---
 
 # Hytale Persistent Data Storage
 
 This skill provides comprehensive documentation for storing persistent data on players and entities using custom components with Codec serialization.
+
+Current server builds use `com.hypixel.hytale.component.*` for `Component`, `ComponentType`, `Ref`, and `Store`, plus `com.hypixel.hytale.server.core.universe.world.storage.EntityStore` for the world storage type.
 
 ## Quick Reference
 
@@ -37,11 +39,12 @@ Every persistent component must have:
 ### Basic Template
 
 ```java
-import com.hypixel.hytale.codec.BuilderCodec;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
-import com.hypixel.hytale.ecs.Component;
-import com.hypixel.hytale.ecs.entity.store.EntityStore;
+import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.codec.validation.Validators;
+import com.hypixel.hytale.component.Component;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import javax.annotation.Nonnull;
 
@@ -125,7 +128,7 @@ new KeyedCodec<>("someInteger", Codec.INTEGER)
 ```java
 // Map<String, String>
 new KeyedCodec<>("SomeMap", 
-    new MapCodec<>(Codec.STRING, HashMap::new, false))
+    new MapCodec<>(Codec.STRING, HashMap::new))
 
 // List<String>
 new KeyedCodec<>("SomeList",
@@ -212,7 +215,7 @@ private void updatePlayerData(
     @Nonnull Store<EntityStore> store
 ) {
     ComponentType<EntityStore, CustomPlayerData> componentType = 
-        MyPlugin.instance().getCustomPlayerDataComponent();
+        MyPlugin.getInstance().getCustomPlayerDataComponent();
     
     // Check if component already exists
     CustomPlayerData existing = store.getComponent(ref, componentType);
@@ -253,7 +256,7 @@ public class MyCommand extends AbstractPlayerCommand {
         @Nonnull World world
     ) {
         ComponentType<EntityStore, CustomPlayerData> componentType = 
-            MyPlugin.instance().getCustomPlayerDataComponent();
+            MyPlugin.getInstance().getCustomPlayerDataComponent();
         
         // Gets component or creates with default values
         CustomPlayerData data = store.ensureAndGetComponent(ref, componentType);
@@ -277,13 +280,13 @@ public class MyCommand extends AbstractPlayerCommand {
 ```java
 package com.example.plugin.components;
 
-import com.hypixel.hytale.codec.BuilderCodec;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
-import com.hypixel.hytale.codec.MapCodec;
-import com.hypixel.hytale.codec.Validators;
-import com.hypixel.hytale.ecs.Component;
-import com.hypixel.hytale.ecs.entity.store.EntityStore;
+import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.codec.codecs.map.MapCodec;
+import com.hypixel.hytale.codec.validation.Validators;
+import com.hypixel.hytale.component.Component;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -313,7 +316,7 @@ public class PlayerStats implements Component<EntityStore> {
                     data -> data.playTime)
             .add()
             .append(new KeyedCodec<>("Achievements",
-                    new MapCodec<>(Codec.INTEGER, HashMap::new, false)),
+                    new MapCodec<>(Codec.INTEGER, HashMap::new)),
                     (data, value) -> data.achievements = value,
                     data -> data.achievements)
             .add()
@@ -365,10 +368,10 @@ public class PlayerStats implements Component<EntityStore> {
 package com.example.plugin;
 
 import com.example.plugin.components.PlayerStats;
-import com.hypixel.hytale.ecs.entity.store.EntityStore;
-import com.hypixel.hytale.ecs.query.ComponentType;
-import com.hypixel.hytale.plugin.JavaPlugin;
-import com.hypixel.hytale.plugin.JavaPluginInit;
+import com.hypixel.hytale.component.ComponentType;
+import com.hypixel.hytale.server.core.plugin.JavaPlugin;
+import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import javax.annotation.Nonnull;
 
@@ -391,7 +394,7 @@ public class MyPlugin extends JavaPlugin {
         );
     }
     
-    public static MyPlugin instance() { return instance; }
+    public static MyPlugin getInstance() { return instance; }
     
     public ComponentType<EntityStore, PlayerStats> getPlayerStatsComponent() {
         return this.playerStatsComponent;

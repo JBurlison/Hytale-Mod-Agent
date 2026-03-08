@@ -1,6 +1,6 @@
 ---
 name: hytale-inventory
-description: Manages player inventories in Hytale plugins using Inventory, ItemStack, ItemContainer, and PageManager APIs. Use when accessing player inventory, creating items, adding/removing items from slots, opening inventory pages, setting durability, or attaching custom metadata to items. Triggers - inventory, ItemStack, ItemContainer, Inventory, getInventory, addItemStack, removeItemStack, PageManager, Page, getStorage, getHotbar, getArmor, getBackpack, durability, item metadata, BsonDocument, slot, inventory page.
+description: Manages player inventories in Hytale plugins using Inventory, ItemStack, ItemContainer, and page APIs. Use when accessing player inventory, creating items, adding or removing items from slots, opening inventory pages, setting durability, attaching custom metadata, or working with container-backed items saved in item BSON. Triggers - inventory, ItemStack, ItemContainer, Inventory, getInventory, addItemStack, removeItemStack, Page, getStorage, getHotbar, getArmor, getBackpack, durability, item metadata, BsonDocument, slot, inventory page, container item, OpenItemStackContainer, setItemStackForSlot, item BSON.
 ---
 
 # Hytale Inventory Management
@@ -24,24 +24,25 @@ Use this skill when managing player inventories, creating items, opening invento
 | Get armor container | `inventory.getArmor()` |
 | Get backpack container | `inventory.getBackpack()` |
 | Get utility container | `inventory.getUtility()` |
+| Define a container-backed item | Add a `Container` block in item JSON and open it with `OpenItemStackContainer` |
 | Add item to container | `container.addItemStack(itemStack)` |
 | Add item to specific slot | `container.addItemStackToSlot((short) slot, itemStack)` |
 | Remove item from container | `container.removeItemStack(itemStack)` |
 | Remove item from slot | `container.removeItemStackFromSlot((short) slot)` |
-| Open an inventory page | `pageManager.setPage(ref, store, Page.Inventory)` |
+| Update a container-backed item | Modify item metadata, create a new `ItemStack`, then replace the slot with `setItemStackForSlot(...)` |
+| Open an inventory page | `player.getPageManager().setPage(ref, store, Page.Inventory)` |
 
 ---
 
 ## Required Imports
 
 ```java
-import com.hypixel.hytale.server.item.ItemStack;
-import com.hypixel.hytale.server.item.ItemContainer;
-import com.hypixel.hytale.server.core.entity.entities.player.Inventory;
-import com.hypixel.hytale.server.core.entity.entities.player.pages.Page;
-import com.hypixel.hytale.server.core.entity.entities.player.pages.PageManager;
-import com.hypixel.hytale.server.ecs.entity.EntityStore;
-import com.hypixel.hytale.server.ecs.Store;
+import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.protocol.packets.interface_.Page;
+import com.hypixel.hytale.server.core.inventory.Inventory;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.bson.BsonDocument;
 import org.bson.BsonString;
 ```
@@ -184,7 +185,7 @@ storage.removeItemStackFromSlot((short) 4);
 
 ## Opening Inventory Pages
 
-Use `PageManager` and the `Page` enum to open inventory UI screens for a player.
+Use the player's page manager and the `Page` enum to open inventory UI screens.
 
 ### Available Pages
 
@@ -202,20 +203,63 @@ Use `PageManager` and the `Page` enum to open inventory UI screens for a player.
 ### Opening a Page
 
 ```java
-PageManager pageManager = player.getPageManager();
 Store<EntityStore> store = player.getWorld().getEntityStore().getStore();
 
-pageManager.setPage(player.getReference(), store, Page.Inventory);
+player.getPageManager().setPage(player.getReference(), store, Page.Inventory);
 ```
 
 ### Closing a Page
 
 ```java
-PageManager pageManager = player.getPageManager();
 Store<EntityStore> store = player.getWorld().getEntityStore().getStore();
 
-pageManager.setPage(player.getReference(), store, Page.None);
+player.getPageManager().setPage(player.getReference(), store, Page.None);
 ```
+
+---
+
+## Container-Backed Items
+
+The updated inventory docs now cover custom inventories stored inside items themselves.
+
+### Item JSON Setup
+
+Add a container to the item definition:
+
+```json
+"Container": {
+    "Capacity": 9
+}
+```
+
+Open that container with a built-in interaction:
+
+```json
+"Interactions": {
+    "Use": {
+        "Interactions": [
+            {
+                "Type": "OpenItemStackContainer"
+            }
+        ]
+    }
+}
+```
+
+### Editing Container Items from a Plugin
+
+Container contents are stored in the held item's BSON metadata, not as ECS-backed child entities.
+
+- Read the held item and its active hotbar slot.
+- Decode the container data from the item's metadata.
+- Modify a local copy of the contained `ItemStack[]` data.
+- Write the updated metadata to a new `ItemStack` with `withMetadata(...)`.
+- Replace the original slot with `setItemStackForSlot(...)` because `ItemStack` values are immutable.
+
+### When to Use This Pattern
+
+- Use normal `Inventory` and `ItemContainer` APIs for player inventory sections like hotbar, storage, armor, and backpack.
+- Use container-backed item metadata when the item itself owns its own internal storage, such as bags, boxes, or utility items with embedded contents.
 
 ---
 

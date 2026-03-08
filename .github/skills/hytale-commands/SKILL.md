@@ -5,9 +5,9 @@ description: Documents Hytale's command system for creating custom commands in p
 
 # Hytale Command System
 
-Comprehensive reference for creating custom commands in Hytale plugins, including command types, arguments, validators, permissions, variants, subcommands, and registration.
+Comprehensive reference for creating custom commands in Hytale plugins, including command types, arguments, validators, permissions, variants, subcommands, registration, and the full ArgTypes reference.
 
-> **Source:** <https://hytalemodding.dev/en/docs/guides/plugin/creating-commands>
+> **Source:** <https://hytalemodding.dev/en/docs/guides/plugin/creating-commands>, <https://hytalemodding.dev/en/docs/server/argtypes>
 > **Related skills:** For permissions in detail, see `hytale-permissions`. For player stats used in commands, see `hytale-player-stats`.
 
 ---
@@ -24,6 +24,7 @@ Comprehensive reference for creating custom commands in Hytale plugins, includin
 | Add optional argument | `this.withOptionalArg("name", "desc", ArgTypes.STRING)` |
 | Add default argument | `this.withDefaultArg("name", "desc", ArgTypes.FLOAT, 100f, "default desc")` |
 | Add flag argument | `this.withFlagArg("name", "desc")` |
+| Browse all supported argument types | Use the ArgTypes server reference for the authoritative list |
 | Get argument value | `myArg.get(commandContext)` |
 | Require permission | `requirePermission(HytalePermissions.fromCommand("name"))` |
 | Make command public | Override `canGeneratePermission()` to return `false` |
@@ -131,7 +132,7 @@ Arguments are added in the command's constructor. The value is retrieved during 
 
 ### ArgTypes
 
-Common argument types:
+Use the ArgTypes server reference as the authoritative list when you need an exact constant name or a less common parser. The most common types used in plugins are:
 
 - `ArgTypes.STRING`
 - `ArgTypes.INTEGER`
@@ -140,6 +141,8 @@ Common argument types:
 - `ArgTypes.DOUBLE`
 - `ArgTypes.UUID`
 - `ArgTypes.PLAYER_REF`
+
+The full ArgTypes page also covers world, coordinate, asset, range, color, block, and game-mode parsers. Check it before inventing a custom parser for something the server already supports.
 
 ### Full Arguments Example
 

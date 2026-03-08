@@ -19,7 +19,8 @@ Important: use native UI only. Do not use HyUI.
 6. Bind UI events with UIEventBuilder and always sendUpdate after handling events. See references/java-api.md and references/events.md.
 7. For assets, use @2x.png and set IncludesAssetPack in manifest. See references/assets-and-packaging.md.
 8. To attach a HUD to an item (shown when held/active), use the item JSON HudUI field. See references/item-hud-ui.md.
-9. If something fails at runtime, check references/troubleshooting.md.
+9. For translation keys and localized runtime strings, check references/translations.md.
+10. If something fails at runtime, check references/troubleshooting.md.
 
 ## Reference library
 
@@ -34,6 +35,7 @@ Important: use native UI only. Do not use HyUI.
 - references/events.md
 - references/assets-and-packaging.md
 - references/item-hud-ui.md
+- references/translations.md
 - references/examples.md
 - references/troubleshooting.md
 

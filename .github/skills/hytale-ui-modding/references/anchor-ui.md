@@ -6,16 +6,18 @@ Anchor UI allows plugins to inject UI content into predefined anchor points in t
 
 ## How It Works
 
-1. The client's built-in `.ui` files contain empty `Group` elements with `#Server*` IDs — these are **anchor points**.
+1. The client's built-in `.ui` files contain a small number of `Group` elements whose IDs start with `#Server` followed by a capitalized suffix — these are **anchor points**.
 2. The server sends an `UpdateAnchorUI` packet referencing an anchor by its **anchor ID**.
 3. The client appends the provided UI commands (from a `.ui` file or inline markup) into that anchor element.
 4. Optionally, event bindings are included so the injected UI can send events back to the server.
+
+Other built-in controls can also have `#Server...` IDs, such as `#ServerName` in the player list or `#ServerAddress` in server browser pages. Those are regular UI element IDs, not Anchor UI insertion roots.
 
 ---
 
 ## Available Anchor Points
 
-Only elements with `#Server*`-prefixed IDs in the base game UI serve as anchor points. As of the current version, there are **three**:
+In the current workspace build, a case-sensitive scan of `lib/UI/**/*.ui` finds **three** built-in `Group #Server...` anchor points:
 
 | Anchor Element | File | Line | Anchor ID | Context |
 |----------------|------|------|-----------|---------|
@@ -24,6 +26,10 @@ Only elements with `#Server*`-prefixed IDs in the base game UI serve as anchor p
 | `Group #ServerDetails { ... }` | `InGame/Hud/PlayerList.ui` | 38 | `PlayerListServerDetails` | Player list (visible when holding Tab) |
 
 > **Important:** These are the **only** usable anchor points. Asset pack overrides (`IncludesAssetPack: true`) **cannot** add new `#Server*` elements to vanilla UI files — the client only recognises anchors present in its own built-in documents. Attempting to override a vanilla `.ui` file (e.g., placing `CharacterPanel.ui` at `Common/UI/InGame/Pages/Inventory/CharacterPanel.ui`) will not create new anchor points.
+
+> **Note:** The same UI scan also finds other non-anchor `Server...` IDs such as `#ServerName`, `#ServerAddress`, `#ServerSearchField`, and `#ServerTag`. They are not `Group` anchors and do not produce valid Anchor UI targets.
+
+In the decompiled built-in server code for this drop, the only concrete `UpdateAnchorUI` usage found is `MapServerContent` in `ReturnToHubButtonUI`. That does not limit plugin usage to the map anchor; it just confirms the shipped server only uses one of the three available anchors itself.
 
 ### Anchor ID Convention
 

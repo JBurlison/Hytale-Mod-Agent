@@ -1,6 +1,6 @@
 ---
 name: hytale-world-gen
-description: Documents Hytale's procedural world generation systems for plugin development. Covers the Java API (Zones, Biomes, Caves) and the data-driven node/JSON system (Density, Curves, Patterns, Material Providers, Props, Scanners, Positions, Assignments, Directionality, Vector Providers, Block Masks). Use when creating custom zones, biomes, caves, terrain, world generation features, density fields, asset packs, or working with the Hytale Node Editor. Triggers - world gen, world generation, zone, biome, cave, ZonePatternGenerator, BiomePatternGenerator, CaveGenerator, CaveType, Zone, CustomBiome, TileBiome, ZoneDiscoveryConfig, ZoneGeneratorResult, CaveBiomeMaskFlags, terrain, procedural generation, border transition, biome mask, density, noise, simplex, curves, patterns, material provider, props, prefab, scanner, positions, assignments, directionality, vector provider, block mask, asset pack, HytaleGenerator, node editor.
+description: Documents Hytale's procedural world generation systems for plugin development. Covers the Java API (Zones, Biomes, Caves) and the data-driven node/JSON system (Density, Curves, Patterns, Material Providers, Props, Scanners, Positions, Assignments, Vector Providers, Block Masks). Use when creating custom zones, biomes, caves, terrain, world generation features, density fields, asset packs, or working with the Hytale Node Editor. Triggers - world gen, world generation, zone, biome, cave, ZonePatternGenerator, BiomePatternGenerator, CaveGenerator, CaveType, Zone, CustomBiome, TileBiome, ZoneDiscoveryConfig, ZoneGeneratorResult, CaveBiomeMaskFlags, terrain, procedural generation, border transition, biome mask, density, noise, simplex, curves, patterns, material provider, props, prefab, scanner, positions, assignments, vector provider, block mask, asset pack, HytaleGenerator, node editor.
 ---
 
 # Hytale World Generation System
@@ -8,6 +8,8 @@ description: Documents Hytale's procedural world generation systems for plugin d
 Comprehensive reference for Hytale's procedural world generation systems used to create environments, biomes, and structures dynamically as players explore the world.
 
 > **Related skills:** For ECS fundamentals, see `hytale-ecs`. For persistent data/Codec patterns, see `hytale-persistent-data`. For entity effects, see `hytale-entity-effects`.
+
+Official worldgen docs recently removed dedicated directionality coverage. Any remaining directionality notes in this skill are preserved as legacy references and should be re-verified against current server source before relying on them.
 
 ## Quick Reference
 
@@ -420,7 +422,7 @@ World generation uses a node-based system of composable JSON assets. Each node t
 | **Scanners** | Scan local world areas for valid positions | Origin, ColumnLinear, ColumnRandom, Area |
 | **Props** | Localized content placed in the world | Box, Density, Prefab, Column, Cluster, Union, Weighted, Queue, PondFiller |
 | **Assignments** | Assign props to positions | Constant, FieldFunction, Sandwich, Weighted |
-| **Directionality** | Determine prop placement direction | Static, Random, Pattern-based |
+| **Legacy Directionality** | Older prop-facing nodes preserved as reference only | Static, Random, Pattern-based |
 | **Vector Provider** | Define 3D vectors procedurally | Constant, DensityGradient, Cache |
 | **Block Mask** | Control which materials can replace others | DontPlace, DontReplace, Advanced rules |
 
@@ -446,7 +448,7 @@ Positions → Scanner → Pattern → Prop Placement
 1. **Positions** provide candidate locations (e.g., Mesh2D grid, BaseHeight offsets)
 2. **Scanner** searches around each position (e.g., ColumnLinear scans Y range)
 3. **Pattern** validates positions (e.g., Floor pattern checks for solid ground below)
-4. **Prop** places content at validated positions (e.g., Prefab with Directionality)
+4. **Prop** places content at validated positions (e.g., Prefab placement; older docs also referenced Directionality for facing)
 
 ### Asset Packs
 
